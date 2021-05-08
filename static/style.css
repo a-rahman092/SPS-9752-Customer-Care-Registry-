@@ -16,7 +16,7 @@ body {
 }
 
 .nav-link:hover {
-  background-color: lightgray;
+  border-bottom:2px solid yellow;
 }
 
 .body {
