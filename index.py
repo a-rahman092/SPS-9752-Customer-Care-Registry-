@@ -25,9 +25,13 @@ app.config['MAIL_PASSWORD'] = 'Rahman@123'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
+
+
+
 @app.route('/')
 def index():
    return render_template('index.html')
+
 
 
 @app.route('/customerlogin', methods =['GET', 'POST'])
@@ -49,6 +53,7 @@ def customerlogin():
    return render_template('customerlogin.html', msgdecline = msgdecline)
 
 
+
 @app.route('/agentlogin', methods =['GET', 'POST'])
 def agentlogin():
    msgdecline = ''
@@ -68,6 +73,7 @@ def agentlogin():
    return render_template('agentlogin.html', msgdecline = msgdecline)
 
 
+
 @app.route('/adminlogin', methods =['GET', 'POST'])
 def adminlogin():
    msgdecline = ''
@@ -85,6 +91,7 @@ def adminlogin():
       else:
          msgdecline = 'Incorrect Username / Password !'
    return render_template('adminlogin.html', msgdecline = msgdecline)
+  
   
   
 @app.route('/customerregister', methods =['GET', 'POST'])
@@ -113,6 +120,7 @@ def customerregister():
    elif request.method == 'POST':
       msgdecline = 'Please fill out the form !'
    return render_template('customerregister.html', msgdecline = msgdecline)
+
 
 
 @app.route('/agentregister', methods =['GET', 'POST'])
@@ -144,7 +152,8 @@ def agentregister():
             return redirect(url_for('agentlogin'))
       elif request.method == 'POST':
          msg = 'Please fill out the form !'
-      return render_template('agentregister.html', msgdecline = msgdecline)
+   return render_template('agentregister.html', msgdecline = msgdecline)
+
 
 
 @app.route('/welcome', methods =['GET', 'POST'])
@@ -173,39 +182,10 @@ def welcome():
          mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
          mailmsg.body = "Hello {},\nWe have received your complain\nYour Ticket Number: {}\nSubject: {}\nDescription: {}\n\nSoon you will be allotted an agent you will get allotment email".format(name, ticketno, subject, description)
          mail.send(mailmsg)
-         
       elif request.method == 'POST':
          msgdecline = 'Please fill out the form !'
    return render_template('welcome.html', msgsuccess = msgsuccess, data=data)
    
-
-@app.route('/admindashboard', methods =['GET', 'POST'])
-def admindashboard():
-   if not session.get("adminusername"):
-      return redirect("/adminlogin")
-   else:
-      msg = ''
-      mycursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-      mycursor.execute('SELECT * FROM complaint_details')
-      data = mycursor.fetchall()
-      mycursor.execute('SELECT * FROM agent_information')
-      agent = mycursor.fetchall()
-      if request.method == 'POST' and 'agentassign' in request.form :
-         agentassign = request.form['agentassign']
-         adminusername = request.form['adminusername']
-         ticketno = request.form['ticketno']
-         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-         cursor.execute('UPDATE complaint_details SET agent_name = %s WHERE ticket_no = %s', (agentassign, ticketno,) )
-         cursor.execute('UPDATE complaint_details SET status = %s WHERE ticket_no = %s', ("Agent Assigned", ticketno,) )
-         mysql.connection.commit()
-         msg = 'Your complaint is Assigned to Agent !'
-         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-         mailmsg.body = "Hello,\nWe have received your complaint and agent {} has been Successfully Assigned\nYour Ticket Number: {}\n\nYou will be notified when your complain will be solved.".format(agentassign, ticketno)
-         mail.send(mailmsg)
-         return redirect(url_for('admindashboard'))
-      elif request.method == 'POST':
-         msg = 'Please fill out the form !'
-      return render_template('admindashboard.html', msg = msg, data=data, agent=agent)
 
 
 @app.route('/agentdashboard', methods =['GET', 'POST'])
@@ -236,14 +216,43 @@ def agentdashboard():
          return redirect(url_for('agentdashboard'))
       elif request.method == 'POST':
          msg = 'Please fill out the form !'
-      return render_template('agentdashboard.html', msg = msg, data=data)
+   return render_template('agentdashboard.html', msg = msg, data=data)
+
+
+
+@app.route('/admindashboard', methods =['GET', 'POST'])
+def admindashboard():
+   if not session.get("adminusername"):
+      return redirect("/adminlogin")
+   else:
+      msg = ''
+      mycursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+      mycursor.execute('SELECT * FROM complaint_details')
+      data = mycursor.fetchall()
+      mycursor.execute('SELECT * FROM agent_information')
+      agent = mycursor.fetchall()
+      if request.method == 'POST' and 'agentassign' in request.form :
+         agentassign = request.form['agentassign']
+         adminusername = request.form['adminusername']
+         ticketno = request.form['ticketno']
+         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+         cursor.execute('UPDATE complaint_details SET agent_name = %s WHERE ticket_no = %s', (agentassign, ticketno,) )
+         cursor.execute('UPDATE complaint_details SET status = %s WHERE ticket_no = %s', ("Agent Assigned", ticketno,) )
+         mysql.connection.commit()
+         msg = 'Your complaint is Assigned to Agent !'
+         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+         mailmsg.body = "Hello,\nWe have received your complaint and agent {} has been Successfully Assigned\nYour Ticket Number: {}\n\nYou will be notified when your complain will be solved.".format(agentassign, ticketno)
+         mail.send(mailmsg)
+         return redirect(url_for('admindashboard'))
+      elif request.method == 'POST':
+         msg = 'Please fill out the form !'
+   return render_template('admindashboard.html', msg = msg, data=data, agent=agent)
+
 
 
 @app.route('/customerforgotpassword', methods =['GET', 'POST'])
 def customerforgotpassword():
-   
       msgdecline = ''
-      
       if request.method == 'POST' and 'customerforgotemail' in request.form :
          forgotemail = request.form['customerforgotemail']
          cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
@@ -262,9 +271,9 @@ def customerforgotpassword():
       return render_template('customerforgotpassword.html', msgdecline = msgdecline)
    
    
+   
 @app.route('/agentforgotpassword', methods =['GET', 'POST'])
 def agentforgotpassword():
-   
       msg = ''
       if request.method == 'POST' and 'agentforgotemail' in request.form :
          forgotemail = request.form['agentforgotemail']
@@ -276,9 +285,11 @@ def agentforgotpassword():
          mail.send(mailmsg)
          return redirect(url_for('enterotp'))
       return render_template('agentforgotpassword.html', msg = msg)
+   
+   
+   
 @app.route('/adminforgotpassword', methods =['GET', 'POST'])
 def adminforgotpassword():
-   
       msg = ''
       if request.method == 'POST' and 'adminforgotemail' in request.form :
          forgotemail = request.form['adminforgotemail']
@@ -289,9 +300,9 @@ def adminforgotpassword():
          mailmsg.body = "Hello, \nYour OTP is: {}\nCkick this link to reset your password".format(otp)
          mail.send(mailmsg)
          return redirect(url_for('enterotp'))
-      
       return render_template('adminforgotpassword.html', msg = msg)
    
+
 
 @app.route('/enterotp', methods =['GET', 'POST'])
 def enterotp():
@@ -302,18 +313,16 @@ def enterotp():
             msgsuccess = 'success'
             return redirect(url_for('changepassword')) 
          else:
-            msgdecline = 'You have entered wrong OTP'
-            
+            msgdecline = 'You have entered wrong OTP'  
       elif request.method == 'POST':
          msg = 'Please fill out the form !'
       return render_template('enterotp.html', msgdecline = msgdecline)
 
 
+
 @app.route('/changepassword', methods =['GET', 'POST'])
 def changepassword():
-   
       msgdecline = ''
-      
       if request.method == 'POST' and 'newpassword' in request.form and 'confirmnewpassword' in request.form:
          newpassword = request.form['newpassword']
          confirmnewpassword = request.form['confirmnewpassword']
@@ -337,11 +346,11 @@ def changepassword():
             else:
                msgdecline = 'Incorrect details'
          else:
-            msgdecline = 'Incorrect details'
-            
+            msgdecline = 'Incorrect details'    
       elif request.method == 'POST':
          msgdecline = 'Please fill out the form !'
       return render_template('changepassword.html', msgdecline = msgdecline)
+
 
 
 @app.route('/logout')
@@ -353,6 +362,6 @@ def logout():
    return redirect(url_for('index'))
 
 
+
 if __name__ == '__main__':
-    
     app.run(host='0.0.0.0', debug = True,port = 8080)
