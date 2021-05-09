@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
     <title>Agent Dashboard</title>
 </head>
 
@@ -30,20 +31,19 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{ url_for('logout') }}">Logout</a>
                 </li>
-
             </ul>
-
         </div>
     </nav>
+
+
     <h3 class="text-center my-5">AGENT DASHBOARD</h3>
+
+
     <section>
-
-
         <div class="container card my-5 p-3">
             <!-- <p>Hi! {{session.cemail}}</p>-->
             <p>Hi! {{session.aemail}}</p>
             <h4 class="mb-3">All Tickets:</h4>
-
             <table class="table table-bordered">
                 <thead>
                     <tr>
@@ -52,59 +52,46 @@
                         <th scope="col">Email</th>
                         <th scope="col">Status</th>
                         <th scope="col">Operation</th>
-
                     </tr>
                 </thead>
-                
                 <tbody>
                     {% for row in data %}
                     <tr>
-                    <td scope="row">{{row.ticket_no}}</td>
-                    <td><a class="btn text-primary" data-toggle="collapse" href="#collapseExample{{row.ticket_no}}"
-                            role="button" aria-expanded="false" aria-controls="collapseExample{{row.ticket_no}}">
-                            View Details
-                        </a>
-
-                        <div class="collapse" id="collapseExample{{row.ticket_no}}">
-                            <div class="card card-body">
-                                <p><b>Subject:</b></p>
-                                <p>{{row.subject}}</p>
-                                <p><b>Description:</b></p>
-                                <p>{{row.description}}</p>
+                        <td scope="row">{{row.ticket_no}}</td>
+                        <td><a class="btn text-primary" data-toggle="collapse" href="#collapseExample{{row.ticket_no}}"
+                                role="button" aria-expanded="false" aria-controls="collapseExample{{row.ticket_no}}">
+                                View Details
+                            </a>
+                            <div class="collapse" id="collapseExample{{row.ticket_no}}">
+                                <div class="card card-body">
+                                    <p><b>Subject:</b></p>
+                                    <p>{{row.subject}}</p>
+                                    <p><b>Description:</b></p>
+                                    <p>{{row.description}}</p>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                    <td scope="row">{{row.customer_email}}</td>
-                    <td scope="row" id="status">{{row.status}}</td>
-                    <td>
-                        <form action="{{ url_for('agentdashboard') }}" method="post">
-                            <div class="form-group">
-                                <input type="hidden" class="btn btn-primary" name="status" value="Completed">
+                        </td>
+                        <td scope="row">{{row.customer_email}}</td>
+                        <td scope="row" id="status">{{row.status}}</td>
+                        <td>
+                            <form action="{{ url_for('agentdashboard') }}" method="post">
+                                <div class="form-group">
+                                    <input type="hidden" class="btn btn-primary" name="status" value="Completed">
 
-                                <input type="hidden" name="ticketno" id="ticketno" value="{{row.ticket_no}}"
-                                    class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-                                <input type="submit" class="btn btn-sm btn-primary" value="Mark As Complete">
-                            </div>
-                        </form>
-                    </td>
-
+                                    <input type="hidden" name="ticketno" id="ticketno" value="{{row.ticket_no}}"
+                                        class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                                    <input type="submit" class="btn btn-sm btn-primary" value="Mark As Complete">
+                                </div>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
-                
             </table>
-
         </div>
     </section>
 
-<script>
-    console.log(document.getElementById("status").innerHTML)
-    var elems = document.getElementsById("status");
-    console.log(elms)
-    for(var i = 0; i < elems.length; i++) {
-        console.log(elems[i].innerHTML);
-}
-</script>
+
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
