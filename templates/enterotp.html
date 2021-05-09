@@ -10,12 +10,14 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
     <title>Enter OTP</title>
 </head>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light shadow">
-        <a class="navbar-brand text-white" href="../"><img src="../static/logo.png" width="50"> Customer Care Registry</a>
+        <a class="navbar-brand text-white" href="../"><img src="../static/logo.png" width="50"> Customer Care
+            Registry</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -34,16 +36,19 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{url_for('agentlogin')}}">Agent Login</a>
                 </li>
-
             </ul>
         </div>
     </nav>
+
+
     {% if msgdecline %}
-	<div class="alert alert-danger alert-dismissible fade show msg" role="alert">{{ msgdecline }}<button type="button"
-			class="close" data-dismiss="alert" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		</button></div>
-	{% endif %}
+    <div class="alert alert-danger alert-dismissible fade show msg" role="alert">{{ msgdecline }}<button type="button"
+            class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button></div>
+    {% endif %}
+
+
     <section>
         <div class="container mt-5">
             <div class="row">
@@ -53,19 +58,20 @@
                         <div class="msg">{{ msg }}</div>
                         <div class="form-group">
                             <label for="exampleInputEmail1">Enter OTP</label>
-                            <input type="text" name="otp" id="cusername" class="form-control"
-                                id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Email" required>
-                                <small id="emailHelp" class="form-text text-muted">Enter OTP which was sent to your email.</small>
+                            <input type="text" name="otp" id="cusername" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter Email" required>
+                            <small id="emailHelp" class="form-text text-muted">Enter OTP which was sent to your
+                                email.</small>
                         </div>
-                        
                         <input type="submit" class="btn btn-success" value="Submit">
                     </form>
                 </div>
             </div>
-
         </div>
     </section>
 
+
+    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
