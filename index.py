@@ -21,7 +21,7 @@ mail= Mail(app)
 app.config['MAIL_SERVER']='smtp.gmail.com'
 app.config['MAIL_PORT'] = 465
 app.config['MAIL_USERNAME'] = 'abdulrahman209875@gmail.com'
-app.config['MAIL_PASSWORD'] = 'Rahman@123'
+app.config['MAIL_PASSWORD'] = 'Rahma@123'
 app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USE_SSL'] = True
 mail = Mail(app)
@@ -113,9 +113,12 @@ def customerregister():
          cursor.execute('INSERT INTO customers_details VALUES (%s, % s, % s, % s, % s)', (None, cname, cemail, cpassword, timestamp, ))
          mysql.connection.commit()
          msg = 'You have successfully registered !'
-         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-         mailmsg.body = "Hello {},\nYou have successfully registered on Customer Care Registry".format(cname)
-         mail.send(mailmsg)
+         try:
+            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg.body = "Hello {},\nYou have successfully registered on Customer Care Registry".format(cname)
+            mail.send(mailmsg)
+         except:
+            pass
          return redirect(url_for('customerlogin'))
    elif request.method == 'POST':
       msgdecline = 'Please fill out the form !'
@@ -146,9 +149,12 @@ def agentregister():
             cursor.execute('INSERT INTO agent_information VALUES (%s, % s, % s, % s, % s, % s)', (None, aname, aemail, ausername, apassword, timestamp,))
             mysql.connection.commit()
             msgsuccess = 'Agent Has been successfully registered !'
-            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-            mailmsg.body = "Hello Agent has been Successfully Registered"
-            mail.send(mailmsg)
+            try:
+               mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+               mailmsg.body = "Hello Agent has been Successfully Registered"
+               mail.send(mailmsg)
+            except:
+               pass
             return redirect(url_for('agentlogin'))
       elif request.method == 'POST':
          msg = 'Please fill out the form !'
@@ -179,9 +185,12 @@ def welcome():
          cursor.execute('INSERT INTO complaint_details VALUES (%s, % s, % s, % s, % s, % s, % s, % s)', (ticketno, name, email, subject, description, timestamp ,"pending","pending", ))
          mysql.connection.commit()
          msgsuccess = 'Your complaint is successfully submitted !'
-         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-         mailmsg.body = "Hello {},\nWe have received your complain\nYour Ticket Number: {}\nSubject: {}\nDescription: {}\n\nSoon you will be allotted an agent you will get allotment email".format(name, ticketno, subject, description)
-         mail.send(mailmsg)
+         try:
+            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg.body = "Hello {},\nWe have received your complain\nYour Ticket Number: {}\nSubject: {}\nDescription: {}\n\nSoon you will be allotted an agent you will get allotment email".format(name, ticketno, subject, description)
+            mail.send(mailmsg)
+         except: 
+            pass
       elif request.method == 'POST':
          msgdecline = 'Please fill out the form !'
    return render_template('welcome.html', msgsuccess = msgsuccess, data=data)
@@ -198,8 +207,10 @@ def agentdashboard():
       mycursor1 = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
       mycursor1.execute('SELECT agent_name FROM agent_information WHERE agent_email = %s', (aemail, ))
       agent = mycursor1.fetchone()
+      
       for x in agent:
          agent_name = agent[x]
+         
       mycursor2 = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
       mycursor2.execute('SELECT * FROM complaint_details WHERE agent_name = %s', (agent_name, ))
       data = mycursor2.fetchall()
@@ -210,9 +221,12 @@ def agentdashboard():
          cursor.execute('UPDATE complaint_details SET status = %s WHERE ticket_no = %s', (status, ticketno,) )
          mysql.connection.commit()
          msg = 'Your complaint is successfully solved !'
-         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-         mailmsg.body = "Hello, \nYour complaint has been successfully solved\nYour Ticket Number: {}".format(ticketno)
-         mail.send(mailmsg)
+         try:
+            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg.body = "Hello, \nYour complaint has been successfully solved\nYour Ticket Number: {}".format(ticketno)
+            mail.send(mailmsg)
+         except:
+            pass
          return redirect(url_for('agentdashboard'))
       elif request.method == 'POST':
          msg = 'Please fill out the form !'
@@ -240,9 +254,12 @@ def admindashboard():
          cursor.execute('UPDATE complaint_details SET status = %s WHERE ticket_no = %s', ("Agent Assigned", ticketno,) )
          mysql.connection.commit()
          msg = 'Your complaint is Assigned to Agent !'
-         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-         mailmsg.body = "Hello,\nWe have received your complaint and agent {} has been Successfully Assigned\nYour Ticket Number: {}\n\nYou will be notified when your complain will be solved.".format(agentassign, ticketno)
-         mail.send(mailmsg)
+         try:
+            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg.body = "Hello,\nWe have received your complaint and agent {} has been Successfully Assigned\nYour Ticket Number: {}\n\nYou will be notified when your complain will be solved.".format(agentassign, ticketno)
+            mail.send(mailmsg)
+         except:
+            pass
          return redirect(url_for('admindashboard'))
       elif request.method == 'POST':
          msg = 'Please fill out the form !'
@@ -262,9 +279,12 @@ def customerforgotpassword():
             session['customerforgotemail'] = forgotemail
             otp = random.randint(1000, 9999)
             session['otp'] = otp
-            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-            mailmsg.body = "Hello, \nYour OTP is: {}\nCkick this link to reset your password".format(otp)
-            mail.send(mailmsg)
+            try:
+               mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+               mailmsg.body = "Hello, \nYour OTP is: {}\nCkick this link to reset your password".format(otp)
+               mail.send(mailmsg)
+            except:
+               msgdecline = 'Oops! Something went wrong! Can\'t sent email'
             return redirect(url_for('enterotp'))
          else:
             msgdecline = 'This email is not registered!'
@@ -280,9 +300,12 @@ def agentforgotpassword():
          session['agentforgotemail'] = forgotemail
          otp = random.randint(1000, 9999)
          session['otp'] = otp
-         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-         mailmsg.body = "Hello, \nYour OTP is: {}\nCkick this link to reset your password".format(otp)
-         mail.send(mailmsg)
+         try:
+            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg.body = "Hello, \nYour OTP is: {}\nCkick this link to reset your password".format(otp)
+            mail.send(mailmsg)
+         except:
+            msgdecline = 'Oops! Something went wrong! Can\'t sent email'
          return redirect(url_for('enterotp'))
       return render_template('agentforgotpassword.html', msg = msg)
    
@@ -296,9 +319,12 @@ def adminforgotpassword():
          session['adminforgotemail'] = forgotemail
          otp = random.randint(1000, 9999)
          session['otp'] = otp
-         mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
-         mailmsg.body = "Hello, \nYour OTP is: {}\nCkick this link to reset your password".format(otp)
-         mail.send(mailmsg)
+         try:
+            mailmsg = Message('Customer Care', sender = 'abdulrahman209875@gmail.com', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg.body = "Hello, \nYour OTP is: {}\nCkick this link to reset your password".format(otp)
+            mail.send(mailmsg)
+         except:
+            msgdecline = 'Oops! Something went wrong! Can\'t sent email'
          return redirect(url_for('enterotp'))
       return render_template('adminforgotpassword.html', msg = msg)
    
