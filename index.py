@@ -176,7 +176,7 @@ def welcome():
          
       elif request.method == 'POST':
          msgdecline = 'Please fill out the form !'
-      return render_template('welcome.html', msgsuccess = msgsuccess, data=data)
+   return render_template('welcome.html', msgsuccess = msgsuccess, data=data)
    
 
 @app.route('/admindashboard', methods =['GET', 'POST'])
