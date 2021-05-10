@@ -171,7 +171,7 @@ def welcome():
       msgdecline = ''
       cmail = session['cemail']
       mycursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-      mycursor.execute('SELECT * FROM complaint_details WHERE customer_email = %s', (cmail,))
+      mycursor.execute('SELECT * FROM complaint_details WHERE customer_email = %s ORDER BY timestamp DESC', (cmail,))
       data = mycursor.fetchall()
       if request.method == 'POST' and 'name' in request.form and 'email' in request.form and 'subject' in request.form and 'description' in request.form :
          name = request.form['name']
@@ -212,7 +212,7 @@ def agentdashboard():
          agent_name = agent[x]
          
       mycursor2 = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-      mycursor2.execute('SELECT * FROM complaint_details WHERE agent_name = %s', (agent_name, ))
+      mycursor2.execute('SELECT * FROM complaint_details WHERE agent_name = %s ORDER BY timestamp DESC', (agent_name, ))
       data = mycursor2.fetchall()
       if request.method == 'POST' and 'status' in request.form :
          status = request.form['status']
@@ -241,7 +241,7 @@ def admindashboard():
    else:
       msg = ''
       mycursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-      mycursor.execute('SELECT * FROM complaint_details')
+      mycursor.execute('SELECT * FROM complaint_details ORDER BY timestamp DESC')
       data = mycursor.fetchall()
       mycursor.execute('SELECT * FROM agent_information')
       agent = mycursor.fetchall()
