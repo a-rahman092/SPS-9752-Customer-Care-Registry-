@@ -3,7 +3,7 @@ Customer Care Registry
 Category: Python Flask
 
 Skills Required:
-HTML,Bootstrap,MySQL,Python-Flask,Cloud Foundry,Tanzu Application Service,REST API's
+HTML, Bootstrap, MySQL, Python-Flask, Cloud Foundry, Tanzu Application Service, REST API's
 
 Project Description:
 
