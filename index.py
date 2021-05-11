@@ -114,7 +114,7 @@ def customerregister():
          mysql.connection.commit()
          flash('You have successfully registered ! Try Login')
          try:
-            mailmsg = Message('Customer Care Registry', sender = 'Registration Successful', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg = Message('Customer Care Registry', sender = 'Registration Successful', recipients = ['{}', cemail])
             mailmsg.body = "Hello {},\nYou have successfully registered on Customer Care Registry".format(cname)
             mail.send(mailmsg)
          except:
@@ -150,7 +150,7 @@ def agentregister():
             mysql.connection.commit()
             flash('Agent Has been successfully registered !')
             try:
-               mailmsg = Message('Customer Care Registry', sender = 'Registration Successful', recipients = ['abdulrahman92mohd@gmail.com'])
+               mailmsg = Message('Customer Care Registry', sender = 'Registration Successful', recipients = ['{}', aemail])
                mailmsg.body = "Hello, You have been Successfully Registered as Agent"
                mail.send(mailmsg)
             except:
@@ -185,7 +185,7 @@ def welcome():
          cursor.execute('INSERT INTO complaint_details VALUES (%s, % s, % s, % s, % s, % s, % s, % s)', (ticketno, name, email, subject, description, timestamp ,"pending","pending", ))
          mysql.connection.commit()
          try:
-            mailmsg = Message('Customer Care Registry', sender = 'Request Received', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg = Message('Customer Care Registry', sender = 'Request Received', recipients = ['{}', email])
             mailmsg.body = "Hello {},\n\nThanks for contacting Customer Care Registry\nWe have received your complain\nYour Ticket Number: {}\nSubject: {}\nDescription: {}\n\nWe strive to provide excellent service, and will respond to your request as soon as possible.".format(name, ticketno, subject, description)
             mail.send(mailmsg)
          except: 
@@ -222,8 +222,16 @@ def agentdashboard():
          cursor.execute('UPDATE complaint_details SET status = %s WHERE ticket_no = %s', (status, ticketno,) )
          mysql.connection.commit()
          msg = 'Your complaint is successfully solved !'
+         
+         mailcursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+         mailcursor.execute('SELECT customer_email FROM complaint_details WHERE ticket_no = %s', (ticketno,) )
+         mail = mailcursor.fetchone()
+         
+         for x in mail:
+            cemail = mail[x]
+            
          try:
-            mailmsg = Message('Customer Care Registry', sender = 'Your Ticket Status', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg = Message('Customer Care Registry', sender = 'Your Ticket Status', recipients = ['{}', cemail])
             mailmsg.body = "Hello, \nYour complaint has been successfully solved\nYour Ticket Number: {}".format(ticketno)
             mail.send(mailmsg)
          except:
@@ -255,8 +263,16 @@ def admindashboard():
          cursor.execute('UPDATE complaint_details SET status = %s WHERE ticket_no = %s', ("Agent Assigned", ticketno,) )
          mysql.connection.commit()
          msg = 'Your complaint is Assigned to Agent !'
+         
+         mailcursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+         mailcursor.execute('SELECT customer_email FROM complaint_details WHERE ticket_no = %s', (ticketno,) )
+         mail = mailcursor.fetchone()
+         
+         for x in mail:
+            cemail = mail[x]
+         
          try:
-            mailmsg = Message('Customer Care Registry', sender = 'Agent Assigned', recipients = ['abdulrahman92mohd@gmail.com'])
+            mailmsg = Message('Customer Care Registry', sender = 'Agent Assigned', recipients = ['{}',cemail])
             mailmsg.body = "Hello,\nWe have received your complaint and agent {} has been Successfully Assigned\nYour Ticket Number: {}\n\nYou will be notified when your complain will be solved.".format(agentassign, ticketno)
             mail.send(mailmsg)
          except:
@@ -281,7 +297,7 @@ def customerforgotpassword():
             otp = random.randint(1000, 9999)
             session['otp'] = otp
             try:
-               mailmsg = Message('Customer Care Registry', sender = 'Forgot Password', recipients = ['abdulrahman92mohd@gmail.com'])
+               mailmsg = Message('Customer Care Registry', sender = 'Forgot Password', recipients = ['{}', forgotemail])
                mailmsg.body = "Hello, \nYour OTP is: {}\nDo not share this OTP to anyone \nUse this OTP to reset your password.".format(otp)
                mailmsg.subject = 'Forgot Passowrd'
                mail.send(mailmsg)
@@ -308,7 +324,7 @@ def agentforgotpassword():
             otp = random.randint(1000, 9999)
             session['otp'] = otp
             try:
-               mailmsg = Message('Customer Care Registry', sender = 'Forgot Password', recipients = ['abdulrahman92mohd@gmail.com'])
+               mailmsg = Message('Customer Care Registry', sender = 'Forgot Password', recipients = ['{}', forgotemail])
                mailmsg.body = "Hello, \nYour OTP is: {}\nDo not share this OTP to anyone \nUse this OTP to reset your password.".format(otp)
                mail.send(mailmsg)
                flash('OTP has been sent to your email')
@@ -334,7 +350,7 @@ def adminforgotpassword():
             otp = random.randint(1000, 9999)
             session['otp'] = otp
             try:
-               mailmsg = Message('Customer Care Registry', sender = 'Forgot Password', recipients = ['abdulrahman92mohd@gmail.com'])
+               mailmsg = Message('Customer Care Registry', sender = 'Forgot Password', recipients = ['{}', forgotemail])
                mailmsg.body = "Hello, \nYour OTP is: {}\nDo not share this OTP to anyone \nUse this OTP to reset your password.".format(otp)
                mail.send(mailmsg)
                flash('OTP has been sent to your email')
