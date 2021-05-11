@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/css/style.css">
+
+    <title>Admin Dashboard</title>
+</head>
+
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light shadow">
+        <a class="navbar-brand text-white" href="#"><img src="../static/images/logo.png" width="50"> Customer Care
+            Registry</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item active">
+                    <a class="nav-link text-white" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{url_for('agentregister')}}">Register Agent</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="{{ url_for('logout') }}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+    <h2 class="text-center my-5">Admin Dashboard</h2>
+
+
+    <section>
+        <div class="container card my-5 p-3">
+            <!-- <p>Hi! {{session.cemail}}</p>-->
+            <h4 class="my-3">All Tickets:</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 10%">#</th>
+                        <th scope="col" style="width: 20%">Ticket Details</th>
+                        <th scope="col" style="width: 10%">Customer Email</th>
+                        <th scope="col" style="width: 20%">Timestamp</th>
+                        <th scope="col" style="width: 10%">Status</th>
+                        <th scope="col" style="width: 30%">Assign Agent</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                    <tr>
+                        <td scope="row">{{row.ticket_no}}</td>
+                        <td><a class="btn text-primary" data-toggle="collapse" href="#collapseExample{{row.ticket_no}}"
+                                role="button" aria-expanded="false" aria-controls="collapseExample{{row.ticket_no}}">
+                                View Details
+                            </a>
+                            <div class="collapse" id="collapseExample{{row.ticket_no}}">
+                                <div class="card card-body">
+                                    <p><b>Subject:</b></p>
+                                    <p>{{row.subject}}</p>
+                                    <p><b>Description:</b></p>
+                                    <p>{{row.description}}</p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>{{row.customer_email}}</td>
+                        <td>{{row.timestamp}}</td>
+                        <td>{{row.status}}</td>
+                        <td>
+                            <form action="{{ url_for('admindashboard') }}" method="post">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="form-group">
+                                            <select name="agentassign" class="form-control form-control-sm"
+                                                id="exampleFormControlSelect1">
+                                                <option value=" " disabled selected>Select Agent</option>
+                                                {% for option in agent %}
+                                                <option value="{{option.agent_name}}">{{option.agent_name}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4"><input type="hidden" name="ticketno" id="ticketno"
+                                            value="{{row.ticket_no}}" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp">
+                                        <input type="hidden" name="adminusername" id="ticketno"
+                                            value="{{row.agent_username}}" class="form-control" id="exampleInputEmail1"
+                                            aria-describedby="emailHelp">
+                                        <input type="submit" class="btn btn-sm btn-primary" value="Assign"></div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+</body>
+
+</html>
