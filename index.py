@@ -225,10 +225,10 @@ def agentdashboard():
          
          mailcursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
          mailcursor.execute('SELECT customer_email FROM complaint_details WHERE ticket_no = %s', (ticketno,) )
-         mail = mailcursor.fetchone()
+         customer_mail = mailcursor.fetchone()
          
-         for x in mail:
-            cemail = mail[x]
+         for x in customer_mail:
+            cemail = customer_mail[x]
             
          try:
             mailmsg = Message('Customer Care Registry', sender = 'Your Ticket Status', recipients = ['{}', cemail])
@@ -266,13 +266,13 @@ def admindashboard():
          
          mailcursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
          mailcursor.execute('SELECT customer_email FROM complaint_details WHERE ticket_no = %s', (ticketno,) )
-         mail = mailcursor.fetchone()
+         customer_mail = mailcursor.fetchone()
          
-         for x in mail:
-            cemail = mail[x]
+         for x in customer_mail:
+            cemail = customer_mail[x]
          
          try:
-            mailmsg = Message('Customer Care Registry', sender = 'Agent Assigned', recipients = ['{}',cemail])
+            mailmsg = Message('Customer Care Registry', sender = 'Agent Assigned', recipients = ['{}', cemail])
             mailmsg.body = "Hello,\nWe have received your complaint and agent {} has been Successfully Assigned\nYour Ticket Number: {}\n\nYou will be notified when your complain will be solved.".format(agentassign, ticketno)
             mail.send(mailmsg)
          except:
