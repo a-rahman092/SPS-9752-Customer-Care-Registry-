@@ -46,7 +46,17 @@
         <div class="container card my-5 p-3">
             <!-- <p>Hi! {{session.cemail}}</p>-->
             <h4 class="my-3">All Tickets:</h4>
-            <table class="table table-bordered  table-responsive-md">
+            
+            <form class="form-inline text-right">
+                <div class="form-group mb-2">
+                    <label for="search" class="mr-3">Search: </label>
+                    <input class="form-control form-control-sm" type="text" id="myInput"
+                        placeholder="Start Typing Here...">
+                </div>
+            </form>
+            
+            
+            <table class="table table-bordered table-hover table-responsive-md">
                 <thead>
                     <tr>
                         <th scope="col" style="width: 10%">#</th>
@@ -57,7 +67,7 @@
                         <th scope="col" style="width: 30%">Assign Agent</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
                     {% for row in data %}
                     <tr>
                         <td scope="row">{{row.ticket_no}}</td>
@@ -108,7 +118,18 @@
         </div>
     </section>
 
-
+    <script>
+        $(document).ready(function () {
+            $("#myInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+    
+    
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
