@@ -107,6 +107,8 @@ def customerregister():
       user_registration = cursor.fetchone()
       if user_registration:
          msgdecline = 'Account already exists ! Try Login'
+      elif cpassword != cconfirmpassword:
+         msgdecline = 'Password did not match !'
       else:
          ts = time.time()
          timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
@@ -143,6 +145,8 @@ def agentregister():
          agent_information = cursor.fetchone()
          if agent_information:
             msgdecline = 'Account already exists ! Try Login'
+         elif apassword != aconfirmpassword:
+         msgdecline = 'Password did not match !'
          else:
             ts = time.time()
             timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
