@@ -146,7 +146,7 @@ def agentregister():
          if agent_information:
             msgdecline = 'Account already exists ! Try Login'
          elif apassword != aconfirmpassword:
-         msgdecline = 'Password did not match !'
+            msgdecline = 'Password did not match !'
          else:
             ts = time.time()
             timestamp = datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
