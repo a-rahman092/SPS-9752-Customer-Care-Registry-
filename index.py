@@ -262,49 +262,8 @@ def agentdashboard():
 
 
 
-@app.route('/admindashboard', methods =['GET', 'POST'])
+@app.route('/admindashboard')
 def admindashboard():
-   if not session.get("adminusername"):
-      return redirect("/adminlogin")
-   else:
-      msg = ''
-      mycursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-      mycursor.execute('SELECT * FROM complaint_details ORDER BY timestamp DESC')
-      data = mycursor.fetchall()
-      mycursor.execute('SELECT * FROM agent_information')
-      agent = mycursor.fetchall()
-      if request.method == 'POST' and 'agentassign' in request.form :
-         agentassign = request.form['agentassign']
-         adminusername = request.form['adminusername']
-         ticketno = request.form['ticketno']
-         cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-         cursor.execute('UPDATE complaint_details SET agent_name = %s WHERE ticket_no = %s', (agentassign, ticketno,) )
-         cursor.execute('UPDATE complaint_details SET status = %s WHERE ticket_no = %s', ("Agent Assigned", ticketno,) )
-         mysql.connection.commit()
-         msg = 'Your complaint is Assigned to Agent !'
-         
-         mailcursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-         mailcursor.execute('SELECT customer_email FROM complaint_details WHERE ticket_no = %s', (ticketno,) )
-         customer_mail = mailcursor.fetchone()
-         
-         for x in customer_mail:
-            cemail = customer_mail[x]
-         
-         try:
-            mailmsg = Message('Customer Care Registry', sender = 'Agent Assigned', recipients = ['{}', cemail])
-            mailmsg.body = "Hello,\nWe have received your complaint and agent {} has been Successfully Assigned\nYour Ticket Number: {}\n\nYou will be notified when your complain will be solved.".format(agentassign, ticketno)
-            mail.send(mailmsg)
-         except:
-            pass
-         return redirect(url_for('admindashboard'))
-      elif request.method == 'POST':
-         msg = 'Please fill out the form !'
-   return render_template('admindashboard.html', msg = msg, data=data, agent=agent)
-
-
-
-@app.route('/admindashboard1')
-def admindashboard1():
    if not session.get("adminusername"):
       return redirect("/adminlogin")
    else:
