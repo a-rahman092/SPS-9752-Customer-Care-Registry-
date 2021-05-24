@@ -305,7 +305,7 @@ def admindashboard():
          return redirect(url_for('admindashboard'))
       elif request.method == 'POST':
          msg = 'Please fill out the form !'
-   return render_template('admindashboard1.html', msg = msg, data=data, agent=agent, pending=pending, assigned=assigned, completed=completed)
+   return render_template('admindashboard.html', msg = msg, data=data, agent=agent, pending=pending, assigned=assigned, completed=completed)
 
 
 
