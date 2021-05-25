@@ -2,8 +2,20 @@
 Customer Care Registry
 Category: Python Flask
 
+Demonstration Video:
+
+WebApp Link:
+
+
+
 Skills Required:
 HTML, Bootstrap, MySQL, Python-Flask, Cloud Foundry, Tanzu Application Service, REST API's
+
+Features:
+1.Responsive Web Application.
+2.Custom 404 Error page Enabled.
+3.Progressive Web Application (PWA) Support:
+  -Android users can install App into their Home screen (Works only in Compatible Browsers with https enabled).
 
 Project Description:
 
