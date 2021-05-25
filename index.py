@@ -262,7 +262,7 @@ def agentdashboard():
 
 
 
-@app.route('/admindashboard')
+@app.route('/admindashboard', methods =['GET', 'POST'])
 def admindashboard():
    if not session.get("adminusername"):
       return redirect("/adminlogin")
