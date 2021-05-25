@@ -13,9 +13,9 @@ HTML, Bootstrap, MySQL, Python-Flask, Cloud Foundry, Tanzu Application Service, 
 
 ## Features:
 #### 1.Responsive Web Application.
-#### 2.Custom 404 Error page Enabled.
+#### 2.Custom 404 Error page enabled.
 #### 3.Progressive Web Application (PWA) Support:
-  Android users can install App into their Home screen (Works only in Compatible Browsers with https enabled).
+  Android users can install App into their Home screen (Works only in Compatible Browsers and https should enabled).
 
 ## Project Description:
 
