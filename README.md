@@ -32,3 +32,15 @@ notification will be sent to the customer.
 #### User: 
 They can register for an account. After the login, they can create a complaint with a description of the problem they are 
 facing. Each user will be assigned an agent. They can view the status of their complaint.
+
+
+## Login Credentials
+Admin Username: admin
+Admin Password: 123456
+
+Agent Username: raysin@xyz.com
+Agent Password: 123456
+Agent Username: alliegrater@xyz.com
+Agent Password: 123456
+Agent Username: jentile@xyz.com
+Agent Password: 123456
