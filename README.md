@@ -35,12 +35,12 @@ facing. Each user will be assigned an agent. They can view the status of their c
 
 
 ## Login Credentials
-Admin Username: admin
-Admin Password: 123456
+Admin Username: admin<br>
+Admin Password: 123456<br><br>
 
-Agent Username: raysin@xyz.com
-Agent Password: 123456
-Agent Username: alliegrater@xyz.com
-Agent Password: 123456
-Agent Username: jentile@xyz.com
-Agent Password: 123456
+Agent Username: raysin@xyz.com<br>
+Agent Password: 123456<br>
+Agent Username: alliegrater@xyz.com<br>
+Agent Password: 123456<br>
+Agent Username: jentile@xyz.com<br>
+Agent Password: 123456<br>
